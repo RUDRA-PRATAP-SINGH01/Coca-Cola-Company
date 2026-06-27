@@ -1,146 +1,472 @@
+# The Coca-Cola Company — Interactive Landing Page
 
-# Introduction to Team DOJO'S KATANAS
+I designed and built this project from scratch as a full-stack front-end experience that reimagines The Coca-Cola Company's digital presence. I handled the HTML structure, CSS styling, JavaScript animations, Three.js 3D scenes, GLSL shaders, asset integration, build configuration, and deployment setup entirely on my own.
 
-Namaste🙏, judges and fellow participants,
+**Live Demo:** [https://the-coca-cola-companyy.netlify.app/](https://the-coca-cola-companyy.netlify.app/)
 
-Welcome to the dynamic world of **DOJO'S KATANAS,** where innovation meets precision in digital craftsmanship. Comprising four dedicated members, each a master in their own right, our team is poised to reimagine the digital landscape with creativity, technical prowess, and a passion for modern design.
-##  The Meaning Behind Our Team Name⚔️
+---
 
-Our team name, **DOJO'S KATANAS,** is a tribute to our journey and training. We are students of [sheryians](https://sheryians.com/), where the classrooms are known as **DOJO**. Just as a dojo is a place of learning and discipline, we have honed our skills and knowledge within the [sheryians](https://sheryians.com/). The **Katana**, a revered sword, symbolizes our precision, strength, and dedication. We consider ourselves the **katana swords of the DOJO**, ready to cut through challenges with skill and finesse. It is noteworthy that while the katana is a powerful symbol, it is **not legal** in India, further emphasizing its representation as a metaphor for our sharpness and capability.
-## Run Locally
+## Quick Start
 
-Clone the project
-
-```bash
-  git clone https://github.com/hardikk04/-DOJO-KATANS-ReimagineRound1.git
-```
-
-Go to the project directory
+Run these commands from the project root to get the repository up and running:
 
 ```bash
-  cd my-project
+# Clone the repository
+git clone https://github.com/RUDRA-PRATAP-SINGH01/Coca-Cola-Company.git
+
+# Enter the project directory
+cd Coca-Cola-Company
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Deploy to Vercel (production)
+npm run deploy
 ```
 
-Install dependencies
+| Command | Description |
+|---------|-------------|
+| `npm install` | Installs all project dependencies |
+| `npm run dev` | Starts the Vite dev server with hot reload and opens the browser |
+| `npm run build` | Creates an optimized production build in the `dist/` folder |
+| `npm run deploy` | Deploys the project to Vercel in production mode |
 
-```bash
-  npm install
+---
+
+## Project Overview
+
+I created a single-page, scroll-driven marketing website for The Coca-Cola Company. The site combines GPU-accelerated 3D graphics, custom GLSL shaders, GSAP scroll animations, and smooth scrolling to deliver an immersive brand experience across desktop and mobile devices.
+
+| Attribute | Detail |
+|-----------|--------|
+| Project Name | The Coca-Cola Company — Interactive Landing Page |
+| Author | RUDRA PRATAP SINGH |
+| Live Demo | [the-coca-cola-companyy.netlify.app](https://the-coca-cola-companyy.netlify.app/) |
+| Repository | [github.com/RUDRA-PRATAP-SINGH01/Coca-Cola-Company](https://github.com/RUDRA-PRATAP-SINGH01/Coca-Cola-Company) |
+| Build Tool | Vite 5 |
+| Deployment | Netlify (live) / Vercel (CLI) |
+| Architecture | Single-page application (SPA) |
+| Primary Language | JavaScript (ES Modules) |
+
+---
+
+## Tech Stack
+
+### Core Technologies
+
+| Technology | Version | Role in This Project |
+|------------|---------|-------------------|
+| HTML5 | — | Semantic page structure, sections, navigation, and media elements |
+| CSS3 | — | Responsive layout, typography, custom cursors, and page-specific styling |
+| JavaScript (ESM) | — | Animation logic, scroll interactions, and module orchestration |
+| Vite | ^5.2.9 | Development server, bundling, and production builds |
+| Three.js | ^0.163.0 | 3D Coca-Cola can models, WebGL rendering, and scene management |
+| WebGL | — | GPU-based rendering for 3D scenes and shader effects |
+| GLSL | — | Custom vertex and fragment shaders for loader and image distortion effects |
+
+### Animation and Interaction Libraries
+
+| Library | Version | Role in This Project |
+|---------|---------|-------------------|
+| GSAP | ^3.12.5 | Timeline animations, ScrollTrigger pinning, and scroll-scrubbed effects |
+| Lenis | ^1.0.42 | Smooth scroll behavior integrated with GSAP ScrollTrigger |
+| Swiper | ^11.1.1 | Touch-enabled carousel on the Purpose page |
+| Remix Icon | ^4.2.0 | Navigation, footer, and UI iconography |
+
+### Build and Deployment Tools
+
+| Tool | Version | Role in This Project |
+|------|---------|-------------------|
+| vite-plugin-glsl | ^1.3.0 | Imports `.glsl` shader files as JavaScript modules |
+| Vercel CLI | ^34.2.0 | Production deployment pipeline |
+
+### 3D Asset Pipeline
+
+| Component | Detail |
+|-----------|--------|
+| GLTF/GLB | `static/models/3_cans_com.glb` — three Coca-Cola can variants |
+| DRACO Compression | `static/draco/` — compressed mesh decoding for faster 3D model loading |
+| Image Sequence | `static/canvas1/` — 39 PNG frames for scroll-driven canvas animation |
+| Video Assets | `static/videos/` — loader and brand showcase videos |
+| Audio | `static/sounds/canSwitch3.wav` — can switch interaction sound |
+
+---
+
+## High-Level Architecture
+
+I structured the application as three independent JavaScript modules that load from a single HTML entry point, each responsible for a distinct layer of the experience.
+
+```mermaid
+flowchart TB
+    subgraph Entry["index.html"]
+        HTML["HTML Structure\n8 Pages + Nav + Footer + Loader"]
+    end
+
+    subgraph Styles["style.css"]
+        CSS["Responsive CSS\n~2270 lines"]
+    end
+
+    subgraph Scripts["JavaScript Modules"]
+        WEBGL["webgl.js\nPage 7 image shader effects"]
+        SCRIPT["script.js\nScroll, UI, Swiper, Canvas"]
+        THREE["three.js\n3D cans, loader shader, GLTF"]
+    end
+
+    subgraph Shaders["GLSL Shaders"]
+        LOADER["loader/\nvertex + fragment"]
+        WATER["water/\nvertex + fragment"]
+    end
+
+    subgraph Assets["static/"]
+        IMGS["imgs/"]
+        VIDS["videos/"]
+        MODELS["models/"]
+        CANVAS["canvas1/"]
+        FONTS["fonts/"]
+        SOUNDS["sounds/"]
+        DRACO["draco/"]
+    end
+
+    HTML --> WEBGL
+    HTML --> SCRIPT
+    HTML --> THREE
+    HTML --> CSS
+    THREE --> LOADER
+    WEBGL --> WATER
+    THREE --> MODELS
+    THREE --> DRACO
+    THREE --> VIDS
+    SCRIPT --> CANVAS
+    SCRIPT --> IMGS
+    WEBGL --> IMGS
 ```
 
-Start the server
+---
 
-```bash
-  npm run dev
+## Application Workflow
+
+### Page Load Sequence
+
+I designed the loader to block scrolling until all 3D assets are ready, then transition into the main experience.
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant HTML as index.html
+    participant Three as three.js
+    participant GSAP
+    participant Script as script.js
+
+    User->>HTML: Opens website
+    HTML->>Three: Initialize Three.js scene
+    Three->>Three: Lock body scroll (overflow hidden)
+    Three->>Three: Load GLTF model + textures + video
+    Three->>Three: Render loader shader on fullscreen plane
+    Three->>GSAP: Play loader exit timeline
+    GSAP->>GSAP: Scale loader plane, fade nav in
+    GSAP->>GSAP: Animate 3D can into position
+    Three->>Three: Unlock body scroll
+    Script->>Script: Lenis smooth scroll activates
+    Script->>GSAP: ScrollTrigger animations bind to sections
+    User->>Script: Scrolls through pages
 ```
 
+### User Scroll Flow
 
-## Project Breakdown
+```mermaid
+flowchart LR
+    A["Loader\n(Video + Shader)"] --> B["Page 1\n3D Hero + Can Switch"]
+    B --> C["Page 2\nPurpose + Swiper"]
+    C --> D["Page 3\nCanvas Image Sequence"]
+    D --> E["Page 4\nFeatured News"]
+    E --> F["Page 5\nBrand Video"]
+    F --> G["Page 6\nBrand Cards"]
+    G --> H["Page 7\nCareers + WebGL"]
+    H --> I["Page 8\nFooter Reveal"]
+```
 
-**Navigation Menu**: 
-We provided a comprehensive menu in the navigation bar, ensuring users can easily interact with various sections of the website. This intuitive design enhances user experience by making site navigation straightforward and efficient.
+### 3D Can Interaction Cycle
 
-**Loader**: Our team visualized the loader from scratch, aiming to set the tone for a dynamic user experience right from the start. Crafted by Hardik, this loader sets the stage for an immersive journey into the world of Coca-Cola, creating anticipation and engagement.
+I implemented a click and auto-timer cycle that rotates through three can variants with synchronized text, color, and sound changes.
 
-**Homepage**:  Inspired by the aesthetics of [sheryians](https://sheryians.com/) previous website, we adapted this into our unique style. The homepage features 3D models and interactive animations of Coca-Cola's iconic products, meticulously developed by Hardik. This blend of design and technology captivates users and invites them to explore more.
+```mermaid
+stateDiagram-v2
+    [*] --> RedCan: Page loads
+    RedCan --> GreyCan: Click or 10s timer
+    GreyCan --> BlackCan: Click or 10s timer
+    BlackCan --> RedCan: Click or 10s timer
 
-**Purpose Page**: Conceptualized independently, the Purpose Page aligns with Coca-Cola's mission and vision. Designed by Ayush, it effectively conveys Coca-Cola's mission to refresh the world and make a difference. This page underscores the brand's commitment to positive global impact.
+    RedCan: Background #d91921\nOriginal Taste
+    GreyCan: Background #ffffff\nDiet Coke
+    BlackCan: Background #000000\nZero Sugar
+```
 
-**Canvas Experience**: Designed from our own vision, this feature simulates 3D environments within a 2D canvas. Ayush's innovative approach to the 2D canvas enhances user immersion and engagement, offering a dynamic and interactive experience that keeps users intrigued.
+---
 
-**News and Updates**: Influenced by the clean layout and functionality of [cynthiaugwu](https://cynthiaugwu.com/), we tailored this section to reflect our distinctive approach. Curated by Dhruv, it keeps users informed with featured news and updates, ensuring they stay connected with the latest happenings at Coca-Cola.
+## Page Breakdown
 
-**Brand Exploration**: Imagined from the ground up, this section showcases Coca-Cola's diverse global portfolio. Created by Dhruv, it highlights the extensive range of brands under the Coca-Cola umbrella, celebrating the company's global presence and diversity.
+I built eight distinct sections, each with its own animation system and visual identity.
 
-**Video Showcase**: Crafted uniquely to engage users with compelling Coca-Cola content, this section highlights videos that resonate with diverse global audiences. This feature enhances the user experience by providing engaging and relatable content.
+| Page | Section ID | What I Built | Key Technologies |
+|------|-----------|--------------|-----------------|
+| Loader | `.main-loader` | Fullscreen video with GLSL displacement shader transition | Three.js, GLSL, GSAP |
+| Hero | `#page1` | Interactive 3D Coca-Cola cans with click-to-switch and scroll parallax | Three.js, GLTF, DRACO, GSAP |
+| Purpose | `#page2` | Marquee text, pinned Swiper carousel, custom cursor | GSAP, ScrollTrigger, Swiper |
+| Canvas | `#page3` | 39-frame scroll-driven image sequence with text reveal | Canvas 2D API, GSAP ScrollTrigger |
+| News (Desktop) | `#page4Desktop` | Hover-following image preview with section-based image swap | GSAP |
+| News (Mobile) | `#page4Mobile` | Card-based news layout for smaller screens | CSS Media Queries |
+| Video | `#page5` | Expanding brand video on scroll with click-to-pause | GSAP ScrollTrigger |
+| Brands | `#page6` | Pinned scroll with five brand cards and hover text overlays | GSAP, ScrollTrigger |
+| Careers | `#page7` | Job section with WebGL chromatic aberration image effects | Three.js, GLSL, GSAP |
+| Footer | `#footer-fixed` | Fixed footer with animated SVG line effects and social links | GSAP, CSS |
 
-**Collaborative Brands**: Inspired by the innovative approach of [changers](https://changers.studio), we adapted this section to highlight Coca-Cola's strategic partnerships. Collaboratively developed by Hardik, it showcases the brand's collaborations, emphasizing the strength and innovation of these partnerships.
+---
 
-**History and Careers**: Developed independently, this section provides insights into Coca-Cola's legacy and career opportunities. Also developed by Hardik, it offers users a glimpse into Coca-Cola's rich heritage and the various career paths available within the company, inspiring potential candidates.
+## Source File Structure
 
-**Footer**: Designed with user navigation and accessibility in mind, the footer reflects our team's meticulous planning and execution. Designed by Ayush, it ensures seamless navigation and user-friendly accessibility, making it easy for users to find important information and navigate the site effortlessly.
-## Key Features💡
+| File | Lines (approx.) | Responsibility |
+|------|----------------|----------------|
+| `src/index.html` | ~507 | HTML structure for all pages, navigation, footer, and script imports |
+| `src/style.css` | ~2270 | Global styles, responsive breakpoints, page layouts, custom cursors |
+| `src/script.js` | ~1037 | Lenis scroll, magnetic cursor, text effects, nav menu, page 2–7 animations, Swiper, canvas sequence, footer |
+| `src/three.js` | ~821 | Three.js scene, GLTF loading, loader shader, can switch logic, scroll parallax, lighting |
+| `src/webgl.js` | ~186 | Desktop-only WebGL water/distortion shader on career page images |
+| `src/shaders/loader/vertex.glsl` | — | Fullscreen loader plane vertex shader |
+| `src/shaders/loader/fragment.glsl` | — | Video texture displacement effect |
+| `src/shaders/water/vertex.glsl` | — | Page 7 image plane vertex shader |
+| `src/shaders/water/fragment.glsl` | — | Mouse-driven pixel distortion and chromatic aberration |
 
-**Modern Animations**: We have integrated modern animations throughout the site to enhance the user experience. These animations make interactions smooth, visually appealing, and engaging, adding a dynamic element to the website that keeps users interested.
+---
 
-**3D Models**: Our website features 3D models of Coca-Cola's iconic products. These models provide a real-world experience, allowing users to view and interact with Coca-Cola products in a more immersive and realistic way. This feature helps bring the brand's products to life on the screen.
+## Static Assets Structure
 
-**GPU-Intensive Graphics**: To elevate the visual and interactive quality of the website, we have implemented GPU-intensive graphics. This means the website leverages the power of the user's graphics processing unit (GPU) to deliver high-performance and engaging content. This ensures that animations and interactive elements run smoothly and look stunning.
+| Directory | Contents | Used By |
+|-----------|----------|---------|
+| `static/imgs/` | Logos, slider images, feature images, brand images, job photos, favicon | HTML, CSS, JS |
+| `static/videos/` | Loader video, page 5 brand video | HTML, Three.js |
+| `static/models/` | `3_cans_com.glb` — three can 3D model | Three.js |
+| `static/canvas1/` | 39 PNG frames (`canvas (1).png` to `canvas (39).png`) | script.js canvas animation |
+| `static/fonts/` | Coca-Cola custom font, heading font, paragraph fonts | CSS @font-face |
+| `static/sounds/` | `canSwitch3.wav` — can switch sound effect | three.js |
+| `static/draco/` | DRACO decoder/encoder for compressed GLTF meshes | Three.js DRACOLoader |
 
-**Responsive Design**: The website is fully responsive, meaning it automatically adjusts to provide an optimal viewing experience on any device. Whether users are accessing the site on a desktop, tablet, or mobile phone, the layout adapts to fit the screen perfectly, ensuring a seamless experience across all devices.
+---
 
-**User-Friendly Interface**: We have designed the website with an intuitive navigation system and a clean layout. This user-friendly interface makes it easy for users to find what they are looking for without any confusion, enhancing their overall experience and satisfaction.
+## Build Configuration
 
-**High-Quality Media**: The website uses high-resolution images and videos to represent Coca-Cola's brand identity. These high-quality media elements ensure that the visual representation of the brand is sharp, clear, and professional, contributing to a polished and premium look.
+I configured Vite with a non-standard root directory so that `src/` serves as the application root while `static/` acts as the public asset directory.
 
-**Cross-Browser Compatibility**: Our website is compatible with all major web browsers, including Chrome, Firefox, Safari, and Edge. This cross-browser compatibility ensures that users have a consistent and reliable experience regardless of the browser they choose to use, preventing any issues related to browser-specific performance or display.
+| Setting | Value | Purpose |
+|---------|-------|---------|
+| `root` | `src/` | HTML entry point lives inside `src/` |
+| `publicDir` | `../static/` | Static assets served from `/imgs/`, `/videos/`, etc. |
+| `base` | `./` | Relative paths for flexible deployment |
+| `outDir` | `../dist/` | Production build output |
+| `sourcemap` | `true` | Debug support in production |
+| `plugins` | `vite-plugin-glsl` | Enables `.glsl` file imports in JavaScript |
 
-##  Technologies Used
+---
 
-**HTML5**: Used for structuring the content, ensuring a semantic and accessible foundation for the website.
+## Feature Summary
 
-**CSS3**: Applied for styling and responsive design, including the use of media queries to adapt the layout to various screen sizes.
+| Feature | Implementation | File(s) |
+|---------|---------------|---------|
+| Smooth scrolling | Lenis integrated with GSAP ticker and ScrollTrigger | `script.js` |
+| Custom magnetic cursor | GSAP mouse tracking with scale on hover targets | `script.js`, `style.css` |
+| Text scramble effect | Letter-by-letter span wrapping with GSAP stagger | `script.js` |
+| Navigation slide-in menu | GSAP timeline with pause/reverse on open/close | `script.js` |
+| Auto-hiding navbar | Scroll direction detection with color theme switch | `script.js` |
+| 3D can model with DRACO | GLTFLoader + DRACOLoader with compressed mesh | `three.js` |
+| Loader shader transition | Custom GLSL displacement on video texture | `three.js`, `shaders/loader/` |
+| Can auto-cycle timer | 10-second GSAP timeline with sound and text sync | `three.js` |
+| Scroll image sequence | 39-frame canvas draw synced to scroll position | `script.js` |
+| Swiper carousel | Looping 3-slide carousel with navigation buttons | `script.js` |
+| WebGL image distortion | Mouse-driven chromatic aberration shader (desktop only) | `webgl.js`, `shaders/water/` |
+| Responsive design | CSS media queries at 1200px, 992px, 768px breakpoints | `style.css` |
+| Footer SVG line animation | GSAP path morphing on mousemove | `script.js` |
 
-**JavaScript**: Employed for interactive elements and enhanced user experience, adding dynamic functionality to the site.
+---
 
-**Three.js**: Utilized for creating 3D graphics and animations, bringing a realistic and immersive feel to the website.
+## Responsive Breakpoints
 
-**WebGL**: Implemented for rendering interactive 3D graphics within web browsers, enabling high-performance visuals.
+I defined responsive behavior across four viewport ranges to ensure the site works on all screen sizes.
 
-**GLSL**: Used for writing shaders to control the graphics pipeline, allowing for advanced graphic effects and rendering techniques.
+| Breakpoint | Target Devices | Key Changes |
+|------------|---------------|-------------|
+| Default (> 1200px) | Desktop | Full layout, custom cursors, WebGL effects, 4-column news |
+| 769px – 1200px | Tablet landscape | Adjusted font sizes, simplified text layouts |
+| 481px – 768px | Tablet portrait | Hidden desktop cursors, adjusted spacing |
+| < 768px | Mobile | Mobile news cards, single-column layouts, WebGL disabled, hidden custom cursors |
 
-**GSAP**: Integrated for creating high-performance animations, ensuring smooth and engaging visual transitions.
+---
 
-**Lenis.js**: Applied for smooth scrolling and scroll animations, enhancing the navigation experience.
+## Data Flow Diagram
 
-**Swiper.js**: Utilized for creating touch sliders and carousels, providing an interactive and user-friendly way to browse content.
+```mermaid
+flowchart TD
+    subgraph Input["User Input"]
+        SCROLL["Scroll"]
+        CLICK["Click"]
+        HOVER["Hover / Mousemove"]
+        WHEEL["Wheel"]
+    end
 
-**Vite**: Employed for building and bundling the project efficiently, optimizing development and build processes.
+    subgraph Engine["Animation Engine"]
+        LENIS["Lenis\nSmooth Scroll"]
+        GSAP_E["GSAP + ScrollTrigger"]
+        RAF["requestAnimationFrame"]
+    end
 
-**Vercel**: Used for deploying the website and ensuring fast, reliable hosting, delivering a seamless user experience.
-## Visionaries Behind It💫
+    subgraph Render["Render Layers"]
+        DOM["DOM / CSS"]
+        CANVAS2D["Canvas 2D\nImage Sequence"]
+        WEBGL3D["WebGL / Three.js\n3D + Shaders"]
+    end
 
-🧑‍💻**Hardik Sisodiya** [@hardikk04](https://portfolio-hardik-sisodiyas-projects.vercel.app/)
+    SCROLL --> LENIS
+    LENIS --> GSAP_E
+    SCROLL --> GSAP_E
+    CLICK --> GSAP_E
+    CLICK --> WEBGL3D
+    HOVER --> GSAP_E
+    HOVER --> WEBGL3D
+    WHEEL --> GSAP_E
 
-leads our charge, specializing in 3D modeling, WebGL, shaders, and animations. His expertise shapes the backbone of our projects, including the loader and collaborative brand pages.
+    GSAP_E --> DOM
+    GSAP_E --> CANVAS2D
+    GSAP_E --> WEBGL3D
+    RAF --> WEBGL3D
+    RAF --> LENIS
+```
 
-🦸**Ayush Kumar Ahirwal** [@ayushahirwal](https://ayush-ah.github.io/portfolioo/)
+---
 
-excels in GSAP animations and interactive experiences, spearheading the development of the refreshing second page and the immersive 2D canvas on the third page.
+## Module Dependency Graph
 
-🎮**Dhruv Tanwani** [@dhruvtanwani](https://www.linkedin.com/in/dhruvtanwani/)
+```mermaid
+flowchart LR
+    subgraph npm["npm Dependencies"]
+        THREE_PKG["three"]
+        GSAP_PKG["gsap"]
+        LENIS_PKG["@studio-freight/lenis"]
+        SWIPER_PKG["swiper"]
+        REMIX_PKG["remixicon"]
+    end
 
-brings his skills to curate dynamic content, handling the featured news, brand exploration, and engaging video showcase on our reimagination of Coca-Cola's digital presence.
+    subgraph dev["Dev Dependencies"]
+        VITE_PKG["vite"]
+        GLSL_PKG["vite-plugin-glsl"]
+        VERCEL_PKG["vercel"]
+    end
 
-🎨**Vaibhav Lokhande** [@vaibhavlokhande](https://3amdesigner.framer.website/)
+    THREE_PKG --> three_js["three.js"]
+    THREE_PKG --> webgl_js["webgl.js"]
+    GSAP_PKG --> three_js
+    GSAP_PKG --> script_js["script.js"]
+    LENIS_PKG --> script_js
+    SWIPER_PKG --> script_js
+    REMIX_PKG --> script_js
+    GLSL_PKG --> three_js
+    GLSL_PKG --> webgl_js
+    VITE_PKG --> BUILD["Production Build"]
+    VERCEL_PKG --> DEPLOY["Vercel Deploy"]
+```
 
-focuses on crafting visually compelling web designs, ensuring our project embodies both aesthetic appeal and seamless functionality.
-## Why did we choose Coca-Cola?
+---
 
-For the front-end hackathon, we selected Coca-Cola as our canvas for reinvention. Recognizing its global prominence and the opportunity to modernize its digital footprint, we embarked on a journey to create a user-centric experience that seamlessly integrates modern design principles with innovative animations.
-## Credits and Special Thanks🙏
+## Deployment Workflow
 
-Images: All images sourced from [Unsplash](https://unsplash.com/).
+```mermaid
+flowchart LR
+    A["Write Code\nsrc/"] --> B["npm run dev\nLocal Testing"]
+    B --> C["npm run build\nVite Bundle"]
+    C --> D["dist/\nOptimized Output"]
+    D --> E["Deploy to Netlify / Vercel"]
+    E --> F["Live Production URL"]
+```
 
-Videos: All videos sourced from [YouTube](https://www.youtube.com/).
+| Stage | Command | Output |
+|-------|---------|--------|
+| Development | `npm run dev` | Local server at `http://localhost:5173` |
+| Build | `npm run build` | Bundled files in `dist/` with sourcemaps |
+| Deploy | `npm run deploy` | Production deployment via Vercel CLI |
+| Live Site | — | [the-coca-cola-companyy.netlify.app](https://the-coca-cola-companyy.netlify.app/) |
 
-Loader Video by: [Chow's Show](https://www.youtube.com/watch?v=s3p5jIgIGSg).
+---
 
-Brand Video by: [Arthur Whitehead](https://www.youtube.com/@ArthurWhitehead).
+## Browser Compatibility
 
-Coca-Cola Model: Thanks to [Atharv Sonawale](https://www.linkedin.com/in/atharvsonawale/), our paid Blender artist, for the fantastic 3D model in our Coca-Cola project.
+| Browser | Supported | Notes |
+|---------|-----------|-------|
+| Google Chrome | Yes | Full feature support including WebGL shaders |
+| Mozilla Firefox | Yes | Full feature support |
+| Microsoft Edge | Yes | Full feature support |
+| Apple Safari | Yes | WebGL effects supported; smooth scroll via Lenis |
+| Mobile browsers | Partial | WebGL image effects disabled; layout adapts via CSS |
 
-Organizers: First of all, thank you to Team [Sheryians](https://sheryians.com/) for providing us with the opportunity to showcase our skills.
+---
 
-Libraries: Thanks to [GSAP](https://gsap.com/), [Three.js](https://threejs.org/), [Lenis.js](https://lenis.darkroom.engineering/), [Swiper](https://swiperjs.com/), [Vite](https://vitejs.dev/), [Vite-plugin-glsl](https://github.com/UstymUkhman/vite-plugin-glsl), [Vercel](https://vercel.com/), and [Remix Icon](https://remixicon.com/). These libraries and packages were instrumental in our project's success.
+## Project Statistics
 
-Sensei:
-Special thanks to [Harsh](https://www.instagram.com/iamharshvandanasharma/) Bhaiya, [Sarthak](https://www.instagram.com/sarthack.sharma/) Bhaiya, and Sensei [Bruno Simon](https://bruno-simon.com/). Their guidance and invaluable feedback significantly contributed to our journey and project development.
+| Metric | Value |
+|--------|-------|
+| Source files | 9 |
+| Total CSS lines | ~2,270 |
+| Total JS lines | ~2,044 |
+| GLSL shader files | 4 |
+| HTML pages/sections | 8 |
+| Canvas animation frames | 39 |
+| 3D model variants | 3 (Red, Grey, Black) |
+| Responsive breakpoints | 4 |
+| npm dependencies | 5 runtime + 3 dev |
+| Production bundle size | ~857 KB (JS) + ~154 KB (CSS) |
 
-Friends:
-A heartfelt thank you to all our friends who supported us throughout this journey with encouragement and positivity.
+---
 
-ChatGPT:
-Gratitude to [ChatGPT](https://chat.openai.com/) for providing quick insights, creative sparks, and assistance whenever needed during our brainstorming sessions and project development phases.
-## Conclusion📕
+## Why I Chose Coca-Cola
 
-Team **DOJO'S KATANAS** has not only enhanced but revolutionized Coca-Cola's digital presence through innovative 3D modeling, interactive animations, and immersive experiences. Our journey, inspired by our training at [Sheryians](https://sheryians.com/) and guided by the wisdom of Sensei [Bruno Simon](https://bruno-simon.com/), has led us to craft a modern, user-centric website that truly embodies excellence in front-end design. We extend our heartfelt gratitude to Team [Sheryians](https://sheryians.com/), Sensei [Bruno Simon](https://bruno-simon.com/), and all our supporters whose collaboration and encouragement have been instrumental in this transformative endeavor. Together, we've not just created a website, but a digital masterpiece that resonates with the spirit of Coca-Cola's iconic brand.
+I selected The Coca-Cola Company as the subject for this project because of its global brand recognition and the creative opportunity to modernize its digital footprint. I wanted to demonstrate that a front-end developer can deliver a premium, interactive brand experience using modern web technologies without relying on a back-end framework.
+
+---
+
+## Credits and Acknowledgments
+
+| Resource | Source |
+|----------|--------|
+| Images | [Unsplash](https://unsplash.com/) |
+| Videos | [YouTube](https://www.youtube.com/) |
+| Loader Video | [Chow's Show](https://www.youtube.com/watch?v=s3p5jIgIGSg) |
+| Brand Video | [Arthur Whitehead](https://www.youtube.com/@ArthurWhitehead) |
+| 3D Coca-Cola Model | Custom Blender model commissioned for this project |
+| GSAP | [gsap.com](https://gsap.com/) |
+| Three.js | [threejs.org](https://threejs.org/) |
+| Lenis | [lenis.darkroom.engineering](https://lenis.darkroom.engineering/) |
+| Swiper | [swiperjs.com](https://swiperjs.com/) |
+| Vite | [vitejs.dev](https://vitejs.dev/) |
+| vite-plugin-glsl | [github.com/UstymUkhman/vite-plugin-glsl](https://github.com/UstymUkhman/vite-plugin-glsl) |
+| Vercel | [vercel.com](https://vercel.com/) |
+| Remix Icon | [remixicon.com](https://remixicon.com/) |
+
+---
+
+## License
+
+ISC
+
+---
+
+## Author
+
+**RUDRA PRATAP SINGH**
+
+- Live Demo: [the-coca-cola-companyy.netlify.app](https://the-coca-cola-companyy.netlify.app/)
+- GitHub: [RUDRA-PRATAP-SINGH01](https://github.com/RUDRA-PRATAP-SINGH01)
+- Repository: [Coca-Cola-Company](https://github.com/RUDRA-PRATAP-SINGH01/Coca-Cola-Company)
+
+I designed, developed, and deployed this entire project independently.
