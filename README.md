@@ -457,7 +457,9 @@ I selected The Coca-Cola Company as the subject for this project because of its 
 
 ## License
 
-ISC
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+Copyright (c) 2026 RUDRA PRATAP SINGH
 
 ---
 
