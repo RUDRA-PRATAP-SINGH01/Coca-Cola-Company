@@ -13,15 +13,33 @@ gsap.registerPlugin(ScrollTrigger);
 const lenisJs = () => {
   const lenis = new Lenis();
 
-  lenis.on("scroll", (e) => {});
-
   lenis.on("scroll", ScrollTrigger.update);
 
   gsap.ticker.add((time) => {
-    lenis.raf(time * 500);
+    lenis.raf(time * 1000);
   });
 
   gsap.ticker.lagSmoothing(0);
+
+  ScrollTrigger.scrollerProxy(document.body, {
+    scrollTop(value) {
+      if (arguments.length) {
+        lenis.scrollTo(value, { immediate: true });
+      }
+      return lenis.scroll;
+    },
+    getBoundingClientRect() {
+      return {
+        top: 0,
+        left: 0,
+        width: window.innerWidth,
+        height: window.innerHeight,
+      };
+    },
+  });
+
+  ScrollTrigger.addEventListener("refresh", () => lenis.resize());
+  ScrollTrigger.refresh();
 };
 lenisJs();
 
@@ -375,15 +393,17 @@ page1Animations();
 //  Page 2 Animations
 
 const page2Animation = () => {
-  gsap.to("#slide1 h2", {
+  let slideTween = gsap.to("#slide1 h2", {
     transform: "translateX(-200%)",
     duration: 10,
     repeat: -1,
     ease: "none",
   });
+
   window.addEventListener("wheel", function (dets) {
+    slideTween.kill();
     if (dets.deltaY > 0) {
-      gsap.to("#slide1 h2", {
+      slideTween = gsap.to("#slide1 h2", {
         transform: "translateX(-200%)",
         duration: 10,
         repeat: -1,
@@ -392,9 +412,10 @@ const page2Animation = () => {
       gsap.to("#slide1 h2 img", {
         rotate: 270,
         duration: 1,
+        overwrite: true,
       });
     } else {
-      gsap.to("#slide1 h2", {
+      slideTween = gsap.to("#slide1 h2", {
         transform: "translateX(0%)",
         duration: 10,
         repeat: -1,
@@ -403,6 +424,7 @@ const page2Animation = () => {
       gsap.to("#slide1 h2 img", {
         rotate: 0,
         duration: 1,
+        overwrite: true,
       });
     }
   });
@@ -448,9 +470,13 @@ const page2Animation = () => {
   });
 
   var swiper = new Swiper(".mySwiper", {
-    slidesPerView: 3,
+    slidesPerView: 1,
     spaceBetween: 30,
     loop: true,
+    breakpoints: {
+      640: { slidesPerView: 2 },
+      1024: { slidesPerView: 3 },
+    },
     navigation: {
       nextEl: ".swiper-button-next",
       prevEl: ".swiper-button-prev",
@@ -518,62 +544,20 @@ const canvas1 = () => {
     render();
   });
 
-  function files(index) {
-    var data = `
-  canvas1/canvas (1).png
-  canvas1/canvas (2).png
-  canvas1/canvas (3).png
-  canvas1/canvas (4).png
-  canvas1/canvas (5).png
-  canvas1/canvas (6).png
-  canvas1/canvas (7).png
-  canvas1/canvas (8).png
-  canvas1/canvas (9).png
-  canvas1/canvas (10).png
-  canvas1/canvas (11).png
-  canvas1/canvas (12).png
-  canvas1/canvas (13).png
-  canvas1/canvas (14).png
-  canvas1/canvas (15).png
-  canvas1/canvas (16).png
-  canvas1/canvas (17).png
-  canvas1/canvas (18).png
-  canvas1/canvas (19).png
-  canvas1/canvas (20).png
-  canvas1/canvas (21).png
-  canvas1/canvas (22).png
-  canvas1/canvas (23).png
-  canvas1/canvas (24).png
-  canvas1/canvas (25).png
-  canvas1/canvas (26).png
-  canvas1/canvas (27).png
-  canvas1/canvas (28).png
-  canvas1/canvas (29).png
-  canvas1/canvas (30).png
-  canvas1/canvas (31).png
-  canvas1/canvas (32).png
-  canvas1/canvas (33).png
-  canvas1/canvas (34).png
-  canvas1/canvas (35).png
-  canvas1/canvas (36).png
-  canvas1/canvas (37).png
-  canvas1/canvas (38).png
-  canvas1/canvas (39).png
-  
-   `;
-    return data.split("\n")[index];
-  }
-
   const frameCount = 39;
+  const framePaths = Array.from(
+    { length: frameCount },
+    (_, i) => `canvas1/canvas (${i + 1}).png`
+  );
 
   const images = [];
   const imageSeq = {
-    frame: 1,
+    frame: 0,
   };
 
   for (let i = 0; i < frameCount; i++) {
     const img = new Image();
-    img.src = files(i);
+    img.src = framePaths[i];
     images.push(img);
   }
 
@@ -591,13 +575,17 @@ const canvas1 = () => {
     onUpdate: render,
   });
 
-  images[1].onload = render;
+  images[0].onload = render;
 
   function render() {
-    scaleImage(images[imageSeq.frame], context);
+    const img = images[imageSeq.frame];
+    if (img?.complete && img.naturalWidth) {
+      scaleImage(img, context);
+    }
   }
 
   function scaleImage(img, ctx) {
+    if (!img || !img.naturalWidth) return;
     var canvas = ctx.canvas;
     var hRatio = canvas.width / img.width;
     var vRatio = canvas.height / img.height;
@@ -829,7 +817,7 @@ const page6Animation = () => {
     {
       backgroundColor: "#fff",
     },
-    "same"
+    "s"
   );
 
   const allImgs = document.querySelectorAll(".page6-imgs");
@@ -980,7 +968,7 @@ const page7animation = () => {
     y: "-150",
     scrollTrigger: {
       trigger: "#page7",
-      scroll: "body",
+      scroller: "body",
       start: "top 100%",
       end: "top -100%",
       scrub: 1,

@@ -303,8 +303,8 @@ function getRandomText(length) {
 
 const randomTextAnimation = [
   "<h1>Original &nbsp; Taste</h1>",
-  "<h1>Diet &nbsp; Coke<h1>",
-  "<h1>Zero &nbsp; Sugar<h1>",
+  "<h1>Diet &nbsp; Coke</h1>",
+  "<h1>Zero &nbsp; Sugar</h1>",
 ];
 const randomTextAnimationSpeed = 0.5;
 
@@ -352,7 +352,7 @@ const redToGreyCanAnimation = (sound) => {
     switchAudio.play();
 
     // Restart the animation on click
-    lineAnimation.restart();
+    lineAnimation?.restart();
   }
   // Rotates red
   if (canRotationFlag) {
@@ -466,7 +466,7 @@ const greyToBlackCanAnimation = (sound) => {
     switchAudio.play();
 
     // Restart the animation on click
-    lineAnimation.restart();
+    lineAnimation?.restart();
   }
 
   // Rotates grey
@@ -581,7 +581,7 @@ const blackToRedCanAnimation = (sound) => {
     switchAudio.play();
 
     // Restart the animation on click
-    lineAnimation.restart();
+    lineAnimation?.restart();
   }
 
   // Rotates black
@@ -642,6 +642,8 @@ const blackToRedCanAnimation = (sound) => {
 
 // Update cans function
 const updateCans = (sound) => {
+  if (!redModel || !greyModel || !blackModel) return;
+
   // Red to Grey
   if (flag === "red") {
     redToGreyCanAnimation(sound);
@@ -719,7 +721,7 @@ scene.add(directionalLight);
  * Scroll Animation of can
  */
 
-let scrollY = window.screenY;
+let scrollY = window.scrollY;
 
 window.addEventListener("scroll", () => {
   scrollY = window.scrollY;

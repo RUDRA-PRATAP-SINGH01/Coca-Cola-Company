@@ -142,41 +142,23 @@ if (!isMobileDevice()) {
         y: 0,
         duration: 1,
       });
-      gsap.to(planeMesh.material.uniforms.uTime, {
-        value: 0,
-        duration: 1,
-      });
 
       easeFactor = 0.05;
       targetMousePosition = { ...prevPosition };
     }
   };
 
-  const img1 = document.querySelector(".page7-part1-right");
-  const img2 = document.querySelector(".page7-part2-left");
-  const img3 = document.querySelector(".page7-part2-right-ig");
-
-  img1.addEventListener(
-    "mouseenter",
-    webGLEffect(
-      ".page7-part1-right",
-      ".page7-part1-right>img",
-      "/imgs/job22.jpg"
-    )
+  webGLEffect(
+    ".page7-part1-right",
+    ".page7-part1-right>img",
+    "/imgs/job22.jpg"
   );
-
-  img2.addEventListener(
-    "mouseenter",
-    webGLEffect(".page7-part2-left", ".page7-part2-left>img", "/imgs/job11.jpg")
-  );
-  img3.addEventListener(
-    "mouseenter",
-    webGLEffect(
-      ".page7-part2-right-ig",
-      ".page7-part2-right-ig>img",
-      "/imgs/job33.jpg",
-      2
-    )
+  webGLEffect(".page7-part2-left", ".page7-part2-left>img", "/imgs/job11.jpg");
+  webGLEffect(
+    ".page7-part2-right-ig",
+    ".page7-part2-right-ig>img",
+    "/imgs/job33.jpg",
+    2
   );
 } else {
   document.querySelector(".page7-part1-right>img").style.opacity = 1;
